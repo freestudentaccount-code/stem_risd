@@ -135,6 +135,19 @@ class SpaceEvaders {
         window.saveHighScore = () => this.saveHighScore();
         window.startNewGame = () => this.resetGame();
         
+        // Add Enter key support for name input
+        document.addEventListener('DOMContentLoaded', () => {
+            const playerNameInput = document.getElementById('playerName');
+            if (playerNameInput) {
+                playerNameInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        this.saveHighScore();
+                    }
+                });
+            }
+        });
+        
         this.setupMobileControls();
     }
     
@@ -591,29 +604,52 @@ class SpaceEvaders {
     }
     
     saveHighScore() {
-        const playerName = document.getElementById('playerName').value.trim() || 'Anonymous';
-        const highScores = this.getHighScores();
-        
-        highScores.push({
-            name: playerName,
-            score: this.score,
-            time: this.timeElapsed,
-            level: this.level,
-            date: new Date().toLocaleDateString()
-        });
-        
-        highScores.sort((a, b) => b.score - a.score);
-        highScores.splice(10); // Keep only top 10
-        
-        localStorage.setItem('spaceEvadersHighScores', JSON.stringify(highScores));
-        this.displayHighScores();
-        
-        document.getElementById('gameOver').style.display = 'none';
+        try {
+            const playerNameInput = document.getElementById('playerName');
+            const playerName = (playerNameInput ? playerNameInput.value.trim() : '') || 'Anonymous';
+            const highScores = this.getHighScores();
+            
+            highScores.push({
+                name: playerName,
+                score: this.score,
+                time: this.timeElapsed,
+                level: this.level,
+                date: new Date().toLocaleDateString()
+            });
+            
+            highScores.sort((a, b) => b.score - a.score);
+            highScores.splice(10); // Keep only top 10
+            
+            localStorage.setItem('spaceEvadersHighScores', JSON.stringify(highScores));
+            this.displayHighScores();
+            
+            const gameOverDiv = document.getElementById('gameOver');
+            if (gameOverDiv) {
+                gameOverDiv.style.display = 'none';
+            }
+            
+            // Clear the input field
+            if (playerNameInput) {
+                playerNameInput.value = '';
+            }
+        } catch (error) {
+            console.log('Error saving high score:', error);
+            // Still hide the game over screen even if there's an error
+            const gameOverDiv = document.getElementById('gameOver');
+            if (gameOverDiv) {
+                gameOverDiv.style.display = 'none';
+            }
+        }
     }
     
     getHighScores() {
-        const saved = localStorage.getItem('spaceEvadersHighScores');
-        return saved ? JSON.parse(saved) : [];
+        try {
+            const saved = localStorage.getItem('spaceEvadersHighScores');
+            return saved ? JSON.parse(saved) : [];
+        } catch (error) {
+            console.log('Error loading high scores:', error);
+            return [];
+        }
     }
     
     loadHighScores() {
@@ -621,22 +657,31 @@ class SpaceEvaders {
     }
     
     displayHighScores() {
-        const highScores = this.getHighScores();
-        const container = document.getElementById('highScoresList');
-        
-        if (highScores.length === 0) {
-            container.innerHTML = '<div>No scores yet!</div>';
-            return;
+        try {
+            const highScores = this.getHighScores();
+            const container = document.getElementById('highScoresList');
+            
+            if (!container) {
+                console.log('High scores container not found');
+                return;
+            }
+            
+            if (highScores.length === 0) {
+                container.innerHTML = '<div>No scores yet!</div>';
+                return;
+            }
+            
+            container.innerHTML = highScores
+                .slice(0, 5)
+                .map((score, index) => `
+                    <div class="high-score-entry">
+                        <span>${index + 1}. ${score.name}</span>
+                        <span>${score.score}</span>
+                    </div>
+                `).join('');
+        } catch (error) {
+            console.log('Error displaying high scores:', error);
         }
-        
-        container.innerHTML = highScores
-            .slice(0, 5)
-            .map((score, index) => `
-                <div class="high-score-entry">
-                    <span>${index + 1}. ${score.name}</span>
-                    <span>${score.score}</span>
-                </div>
-            `).join('');
     }
     
     resetGame() {
