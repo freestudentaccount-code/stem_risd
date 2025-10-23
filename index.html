@@ -3,9 +3,44 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title></title>
+  <title>🚀 Space Evaders - Emoji Edition</title>
+  <link rel="stylesheet" href="game.css">
 </head>
 <body>
-
+  <div class="game-container">
+    <div class="game-header">
+      <h1>🚀 SPACE EVADERS 🛸</h1>
+      <div class="score-panel">
+        <div class="score">Score: <span id="score">0</span></div>
+        <div class="level">Level: <span id="level">1</span></div>
+        <div class="lives">Lives: <span id="lives">3</span></div>
+        <div class="timer">Time: <span id="timer">00:00</span></div>
+      </div>
+    </div>
+    
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    
+    <div class="controls">
+      <p>🎮 Use ← → arrow keys to move, SPACEBAR to shoot</p>
+    </div>
+    
+    <div class="game-over" id="gameOver" style="display: none;">
+      <h2>🎯 Game Over!</h2>
+      <p>Final Score: <span id="finalScore">0</span></p>
+      <p>Time Survived: <span id="finalTime">00:00</span></p>
+      <div class="name-input">
+        <input type="text" id="playerName" placeholder="Enter your name" maxlength="10">
+        <button onclick="saveHighScore()">Save Score</button>
+      </div>
+      <button onclick="startNewGame()">Play Again</button>
+    </div>
+    
+    <div class="high-scores">
+      <h3>🏆 High Scores</h3>
+      <div id="highScoresList"></div>
+    </div>
+  </div>
+  
+  <script src="game.js"></script>
 </body>
 </html>

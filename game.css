@@ -1,0 +1,280 @@
+/* Space Evaders Game Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', monospace;
+    background: #000;
+    color: #fff;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Animated Starfield Background */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, #eee, transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+        radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+        radial-gradient(2px 2px at 160px 30px, #fff, transparent);
+    background-size: 200px 100px;
+    background-repeat: repeat;
+    animation: starfield 20s linear infinite;
+    z-index: -1;
+}
+
+@keyframes starfield {
+    from { transform: translateY(0); }
+    to { transform: translateY(-100px); }
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.game-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.game-header h1 {
+    font-size: 2.5em;
+    text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00;
+    animation: glow 2s ease-in-out infinite alternate;
+    margin-bottom: 15px;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00; }
+    to { text-shadow: 0 0 30px #00ff00, 0 0 60px #00ff00, 0 0 80px #00ff00; }
+}
+
+.score-panel {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.score-panel > div {
+    background: rgba(0, 255, 0, 0.1);
+    padding: 8px 15px;
+    border: 2px solid #00ff00;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+}
+
+#gameCanvas {
+    border: 3px solid #00ff00;
+    border-radius: 10px;
+    box-shadow: 
+        0 0 20px rgba(0, 255, 0, 0.5),
+        inset 0 0 20px rgba(0, 255, 0, 0.1);
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.controls {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 1.1em;
+    color: #ccc;
+}
+
+.game-over {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.9);
+    border: 3px solid #ff0000;
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.7);
+    z-index: 1000;
+}
+
+.game-over h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #ff4444;
+    text-shadow: 0 0 10px #ff0000;
+}
+
+.name-input {
+    margin: 20px 0;
+}
+
+.name-input input {
+    padding: 10px;
+    font-size: 1.1em;
+    border: 2px solid #00ff00;
+    border-radius: 5px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    margin-right: 10px;
+}
+
+.name-input input:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 1.1em;
+    font-family: inherit;
+    background: linear-gradient(45deg, #00ff00, #00cc00);
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background: linear-gradient(45deg, #00cc00, #009900);
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.7);
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+.high-scores {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid #00ff00;
+    border-radius: 10px;
+    padding: 15px;
+    min-width: 200px;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+}
+
+.high-scores h3 {
+    margin-bottom: 10px;
+    text-align: center;
+    color: #00ff00;
+    text-shadow: 0 0 5px #00ff00;
+}
+
+.high-score-entry {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    padding: 3px 0;
+    font-size: 0.9em;
+}
+
+.high-score-entry:nth-child(2) {
+    color: #ffd700;
+    font-weight: bold;
+}
+
+.high-score-entry:nth-child(3) {
+    color: #c0c0c0;
+}
+
+.high-score-entry:nth-child(4) {
+    color: #cd7f32;
+}
+
+/* Explosion Animation Classes */
+.explosion {
+    position: absolute;
+    pointer-events: none;
+    font-size: 2em;
+    animation: explode 0.5s ease-out forwards;
+}
+
+@keyframes explode {
+    0% { 
+        opacity: 1; 
+        transform: scale(0.5) rotate(0deg); 
+    }
+    50% { 
+        opacity: 0.8; 
+        transform: scale(1.2) rotate(180deg); 
+    }
+    100% { 
+        opacity: 0; 
+        transform: scale(2) rotate(360deg); 
+    }
+}
+
+/* Particle effects */
+.particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: #fff;
+    pointer-events: none;
+    animation: particle 1s linear forwards;
+}
+
+@keyframes particle {
+    0% { 
+        opacity: 1; 
+        transform: scale(1); 
+    }
+    100% { 
+        opacity: 0; 
+        transform: scale(0.1) translateY(50px); 
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    #gameCanvas {
+        width: 90vw;
+        max-width: 600px;
+        height: auto;
+    }
+    
+    .score-panel {
+        flex-direction: column;
+        gap: 10px;
+        font-size: 1em;
+    }
+    
+    .high-scores {
+        position: relative;
+        top: auto;
+        right: auto;
+        margin-top: 20px;
+    }
+    
+    .game-header h1 {
+        font-size: 2em;
+    }
+}
+
+@media (max-width: 500px) {
+    .game-header h1 {
+        font-size: 1.5em;
+    }
+    
+    .score-panel > div {
+        padding: 6px 10px;
+        font-size: 0.9em;
+    }
+}
