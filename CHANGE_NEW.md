@@ -24,7 +24,7 @@ Modified Files:
 - CHANGE.md
 
 GitHub Commit Summary:
-- Randomize alien placement, speed up gameplay, add synth sound effects
+- Randomize alien placement, speed up gameplay, add synth sound effects, fix blurry movement trails
 
 Date: 2025-10-23 10:30:00
 Person: jasmoone

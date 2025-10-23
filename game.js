@@ -120,9 +120,74 @@ class SpaceEvaders {
             this.keys[e.code] = false;
         });
         
+        // Prevent default touch behaviors
+        document.addEventListener('touchstart', (e) => {
+            if (this.audioContext && this.audioContext.state === 'suspended') {
+                this.audioContext.resume();
+            }
+        }, { passive: false });
+        
+        document.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+        }, { passive: false });
+        
         // Global functions for HTML buttons
         window.saveHighScore = () => this.saveHighScore();
         window.startNewGame = () => this.resetGame();
+        
+        this.setupMobileControls();
+    }
+    
+    setupMobileControls() {
+        const moveLeftBtn = document.getElementById('moveLeft');
+        const moveRightBtn = document.getElementById('moveRight');
+        const shootBtn = document.getElementById('shootBtn');
+        
+        if (moveLeftBtn && moveRightBtn && shootBtn) {
+            // Left movement
+            moveLeftBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                this.keys['ArrowLeft'] = true;
+            });
+            moveLeftBtn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                this.keys['ArrowLeft'] = false;
+            });
+            
+            // Right movement
+            moveRightBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                this.keys['ArrowRight'] = true;
+            });
+            moveRightBtn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                this.keys['ArrowRight'] = false;
+            });
+            
+            // Shooting
+            let shootInterval;
+            shootBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                this.shoot();
+                shootInterval = setInterval(() => {
+                    this.shoot();
+                }, 150); // Auto-fire while holding
+            });
+            shootBtn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                if (shootInterval) {
+                    clearInterval(shootInterval);
+                    shootInterval = null;
+                }
+            });
+            
+            // Prevent context menu on long press
+            [moveLeftBtn, moveRightBtn, shootBtn].forEach(btn => {
+                btn.addEventListener('contextmenu', (e) => {
+                    e.preventDefault();
+                });
+            });
+        }
     }
     
     createStarField() {

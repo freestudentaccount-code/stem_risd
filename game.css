@@ -242,18 +242,82 @@ button:active {
     }
 }
 
+/* Mobile Controls */
+.mobile-controls-container {
+    display: none;
+    margin-top: 20px;
+}
+
+.control-pad {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.control-btn {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid #00ff00;
+    background: linear-gradient(45deg, rgba(0, 255, 0, 0.2), rgba(0, 255, 0, 0.1));
+    color: #00ff00;
+    font-size: 2em;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    touch-action: manipulation;
+    transition: all 0.1s ease;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+}
+
+.control-btn:active {
+    background: linear-gradient(45deg, rgba(0, 255, 0, 0.4), rgba(0, 255, 0, 0.2));
+    box-shadow: 0 0 25px rgba(0, 255, 0, 0.6);
+    transform: scale(0.95);
+}
+
+.shoot-btn {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(45deg, rgba(255, 100, 0, 0.2), rgba(255, 100, 0, 0.1));
+    border-color: #ff6400;
+    color: #ff6400;
+    box-shadow: 0 0 15px rgba(255, 100, 0, 0.3);
+}
+
+.shoot-btn:active {
+    background: linear-gradient(45deg, rgba(255, 100, 0, 0.4), rgba(255, 100, 0, 0.2));
+    box-shadow: 0 0 25px rgba(255, 100, 0, 0.6);
+}
+
+.desktop-controls {
+    display: block;
+}
+
+.mobile-controls {
+    display: none;
+    color: #00ff00;
+}
+
 /* Responsive Design */
 @media (max-width: 900px) {
     #gameCanvas {
-        width: 90vw;
-        max-width: 600px;
-        height: auto;
+        width: 95vw;
+        max-width: 500px;
+        height: 60vh;
+        max-height: 400px;
     }
     
     .score-panel {
-        flex-direction: column;
+        flex-wrap: wrap;
         gap: 10px;
-        font-size: 1em;
+        font-size: 0.9em;
+    }
+    
+    .score-panel > div {
+        padding: 6px 10px;
     }
     
     .high-scores {
@@ -261,10 +325,23 @@ button:active {
         top: auto;
         right: auto;
         margin-top: 20px;
+        font-size: 0.9em;
     }
     
     .game-header h1 {
-        font-size: 2em;
+        font-size: 1.8em;
+    }
+    
+    .mobile-controls-container {
+        display: block;
+    }
+    
+    .desktop-controls {
+        display: none;
+    }
+    
+    .mobile-controls {
+        display: block;
     }
 }
 
@@ -273,8 +350,50 @@ button:active {
         font-size: 1.5em;
     }
     
+    .score-panel {
+        font-size: 0.8em;
+    }
+    
     .score-panel > div {
-        padding: 6px 10px;
-        font-size: 0.9em;
+        padding: 4px 8px;
+        min-width: 80px;
+    }
+    
+    #gameCanvas {
+        width: 98vw;
+        height: 55vh;
+        max-height: 350px;
+    }
+    
+    .control-btn {
+        width: 70px;
+        height: 70px;
+        font-size: 1.8em;
+    }
+    
+    .shoot-btn {
+        width: 85px;
+        height: 85px;
+    }
+    
+    .control-pad {
+        gap: 15px;
+        padding: 15px;
+    }
+}
+
+/* Prevent scrolling and zooming on mobile */
+@media (max-width: 900px) {
+    body {
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+    }
+    
+    .game-container {
+        height: 100vh;
+        overflow-y: auto;
+        padding: 10px;
     }
 }

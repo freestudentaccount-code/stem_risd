@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>🚀 Space Evaders - Emoji Edition</title>
   <link rel="stylesheet" href="game.css">
 </head>
@@ -21,7 +23,16 @@
     <canvas id="gameCanvas" width="800" height="600"></canvas>
     
     <div class="controls">
-      <p>🎮 Use ← → arrow keys to move, SPACEBAR to shoot</p>
+      <p class="desktop-controls">🎮 Use ← → arrow keys to move, SPACEBAR to shoot</p>
+      <p class="mobile-controls">📱 Use touch controls below to play</p>
+    </div>
+    
+    <div class="mobile-controls-container">
+      <div class="control-pad">
+        <button class="control-btn move-left" id="moveLeft">←</button>
+        <button class="control-btn shoot-btn" id="shootBtn">🔥</button>
+        <button class="control-btn move-right" id="moveRight">→</button>
+      </div>
     </div>
     
     <div class="game-over" id="gameOver" style="display: none;">
